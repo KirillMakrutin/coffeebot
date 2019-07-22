@@ -1,33 +1,15 @@
-const orders = [
-  {
-    username: "Kirill",
-    cup: "xl",
-    type: "cappuccino",
-    time: new Date()
-  },
-  {
-    username: "Sergey",
-    cup: "standard",
-    type: "espresso",
-    time: new Date()
-  }
-];
+const Order = require("../models/order");
 
 exports.getOrders = (req, res) => {
   res.render("barista/orders", {
     pageTitle: "Orders",
     path: "/barista/orders",
-    orders: orders
+    orders: Order.findAll()
   });
 };
 
 exports.newOrder = (req, res) => {
-  orders.push({
-    username: "Unknown user",
-    cup: "standard",
-    type: "americano",
-    time: new Date()
-  });
+  new Order("Unknown user", "M", "Americano", new Date()).save();
 
   res.redirect("/barista/orders");
 };
