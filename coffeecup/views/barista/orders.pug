@@ -1,0 +1,28 @@
+extends ../layouts/main-layout.pug
+
+block content
+    .container
+        h1.my-3 Orders
+
+        if orders && orders.length > 0
+            table.table.table-responsive
+                thead
+                    tr
+                        th(scope="col") Name
+                        th(scope="col") Cup
+                        th(scope="col") Type
+                        th(scope="col") Time
+                        th(scope="col") Action
+
+                tbody
+                    each order in orders
+                        tr
+                            td #{order.username}
+                            td #{order.cup}
+                            td #{order.type}
+                            td #{order.time}
+                            td
+                                button.m-1(type="button" class="btn btn-success") Accept
+                                button.m-1(type="button" class="btn btn-danger") Decline
+        else
+            h1 No Orders

@@ -1,0 +1,26 @@
+{
+  "name": "coffeecup",
+  "version": "1.0.0",
+  "description": "CoffeeCup application free you from having to queue for a cup of coffee",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "Coffee",
+    "Cup",
+    "of",
+    "Coffee"
+  ],
+  "author": "19XX",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pug": "^2.0.4"
+  }
+}
