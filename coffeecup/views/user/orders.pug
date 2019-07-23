@@ -2,7 +2,7 @@ extends ../layouts/main-layout.pug
 
 block content
     .container
-        h1.my-3 Orders
+        h1.my-3 My Orders
         table.table.table-responsive
             thead
                 tr
@@ -13,7 +13,7 @@ block content
                     th(scope="col") Status
                     th(scope="col") Action
 
-            tbody#orderRows
+            tbody#orders
                 each order in orders
                     tr(id=order.id)
                         td #{order.username}
@@ -23,9 +23,4 @@ block content
                         td #{order.status}
                         td
                             if order.status === "CREATED"
-                                button(type="button" class="btn btn-success") Accept
-                            else if order.status === "ACCEPTED"
-                                button(type="button" class="btn btn-success") Ready
-
-block script
-    script(src="/js/barista/orders.js")
+                                button(type="button" class="btn btn-danger") Cancel

@@ -1,0 +1,23 @@
+extends ../layouts/main-layout.pug
+
+block content
+    .container
+        form(action="/user/order", method="post")
+            .form-group
+                label(for="drink") Drink
+                select(class="form-control", name="drink", id="drink")
+                    option Cappuccino
+                    option Espresso
+                    option Mochaccino
+                    option Americano
+                    option Latte
+
+            .form-group
+                label(for="size") Size
+                select(class="form-control", name="size" id="size")
+                    option S
+                    option M
+                    option L
+                    option XL
+
+            button(type="submit", class="btn btn-primary") Submit

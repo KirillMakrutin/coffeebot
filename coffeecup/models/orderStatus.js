@@ -1,0 +1,3 @@
+exports.CREATED = "CREATED";
+exports.ACCEPTED = "ACCEPTED";
+exports.CANCELED = "CANCELED";

@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const WebSocket = require("ws");
 const baristaRouter = require("./routes/barista");
+const userRouter = require("./routes/user");
 const errorRouter = require("./routes/error");
+const orderEvents = require("./events/order");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -11,6 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "pug");
 
 app.use("/barista", baristaRouter);
+app.use("/user", userRouter);
 
 app.use("/favicon.ico", (req, res) => {
   res.sendStatus(200);
@@ -28,13 +31,12 @@ const wss = new WebSocket.Server({ server });
 wss.on("connection", ws => {
   console.log("Websocket connection established");
 
-  //connection is up, let's add a simple simple event
-  ws.on("message", message => {
-    //log the received message and send it back to the client
-    console.log(`received: ${message}`);
-    ws.send(`Hello, you sent -> ${message}`);
+  orderEvents.emitter.on(orderEvents.event_ORDER_CREATED, order => {
+    ws.send(
+      JSON.stringify({
+        message: orderEvents.event_ORDER_CREATED,
+        data: order
+      })
+    );
   });
-
-  //send immediatly a feedback to the incoming connection
-  ws.send("Hello there, I am a WebSocket server");
 });
