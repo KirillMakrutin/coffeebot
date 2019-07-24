@@ -28,3 +28,19 @@ $(function() {
       .appendTo("#orderRows");
   }
 });
+
+function notifyCustomerOrderInProgress(order) {
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:3000/orderInProgress",
+    data: order
+  });
+}
+
+function notifyCustomerOrderReady(order) {
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:3000/orderReady",
+    data: order
+  });
+}

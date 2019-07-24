@@ -1,6 +1,7 @@
 "use strict";
 const BootBot = require("bootbot");
 const axios = require("axios");
+const cors = require("cors");
 
 const TOKEN =
   "DQVJ1cmxFTkRYQUZArcWZAiYXlJcHJwSDY4Q3ViZAGFnbW05ckgzS2c2bUNmWk1tdE9KbG5xclRqR1pJeU1SYTlQQ2RNWXh5aXI3RjBjRWlSaEt2R3pqRmJaWmwwVTFtSmlXUGtIaU92Y1dTVnhZAc2laWGF0a0NyaExFYkQ2cGtsUHlTSzRKZAjAwUGlNQ19kYjlrdjYzSWxFUW8tei05b29zQmpRWXhBTWI3eE5Ja1FCQ3pfZAERDMzVhQ2lHZAmdKaUF3TFNmRWhTb2xvOVB2NWVvUwZDZD";
@@ -64,8 +65,6 @@ const askCoffee = convo => {
     quickReplies: coffeeList
   };
 
-  const answer = () => {};
-
   const callbacks = [
     {
       event: "quick_reply",
@@ -81,11 +80,7 @@ const askCoffee = convo => {
     }
   ];
 
-  const options = {
-    typing: true
-  };
-
-  convo.ask(question, answer, callbacks, options);
+  convo.ask(question, doNothing, callbacks, defaultOptions);
 };
 
 const askCoffeeSize = convo => {
@@ -93,8 +88,6 @@ const askCoffeeSize = convo => {
     text: `Which coffee size do you want to order?`,
     quickReplies: coffeeSizes
   };
-
-  const answer = () => {};
 
   const callbacks = [
     {
@@ -111,11 +104,7 @@ const askCoffeeSize = convo => {
     }
   ];
 
-  const options = {
-    typing: true
-  };
-
-  convo.ask(question, answer, callbacks, options);
+  convo.ask(question, doNothing, callbacks, defaultOptions);
 };
 
 const confirmOrder = convo => {
@@ -145,7 +134,7 @@ const confirmOrder = convo => {
       callback: (payload, convo) => {
         convo
           .say("Ok, your order has been confirmed.")
-          .then(() => createOrder(order));
+          .then(() => createOrder(order, convo));
       }
     },
     {
@@ -158,22 +147,40 @@ const confirmOrder = convo => {
     }
   ];
 
-  const answer = () => {};
-
-  const options = {
-    typing: true
-  };
-
-  convo.ask(question, answer, callbacks, options);
+  convo.ask(question, doNothing, callbacks, defaultOptions);
 };
 
-const createOrder = order => {
+const createOrder = (order, convo) => {
   axios
     .post("http://localhost:3333/user/order", order)
     .then(() => {
-      // TODO do something here?
+      convo.say(
+        "Please wait, I'll notify you when your coffee will be ready..."
+      );
     })
     .catch(error => console.log(error));
 };
 
+bot.app.use(
+  cors({
+    origin: "http://localhost:3333"
+  })
+);
+
+bot.app.post("/orderReady", function(req, res) {
+  //TODO and FIXME: send message to customer + figure out why req body is {]
+  console.log(req);
+});
+
+bot.app.post("/orderInProgress", function(req, res) {
+  //TODO and FIXME: send message to customer + figure out why req body is {]
+  console.log(req);
+});
+
 bot.start();
+
+const defaultOptions = {
+  typing: true
+};
+
+const doNothing = () => {};
