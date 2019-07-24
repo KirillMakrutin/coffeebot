@@ -23,9 +23,9 @@ block content
                         td #{order.status}
                         td
                             if order.status === "CREATED"
-                                button(type="button" class="btn btn-success") Accept
+                                button(type="button" class="btn btn-success" onclick=`notifyCustomerThatCoffeeOrderInProgress(${JSON.stringify(order)})`) Accept
                             else if order.status === "ACCEPTED"
-                                button(type="button" class="btn btn-success") Ready
+                                button(type="button" class="btn btn-success" onclick=`notifyCustomerOrderReady(${JSON.stringify(order)})`) Ready
 
 block script
     script(src="/js/barista/orders.js")

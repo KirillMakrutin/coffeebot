@@ -20,6 +20,7 @@ exports.getOrder = (req, res) => {
   });
 };
 
+// FIXME it seems that we need a separate endpoint for bot due to different data types: form and application/json
 exports.postOrder = (req, res) => {
   const body = req.body;
 
